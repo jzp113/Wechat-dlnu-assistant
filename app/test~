@@ -1,0 +1,28 @@
+class checkevent:
+    def __init__(self,fromuser):
+        
+        self.fromuser = fromuser
+        
+    
+ 
+        
+            
+    def grade(self):
+        
+        return '1'
+ 
+        
+            
+        
+        
+        
+        
+        
+    def key_check(x):    
+         {
+            'grade': grade()
+            
+         }  
+ 
+contents = checkevent('1').key_check('grade')
+
