@@ -20,8 +20,8 @@ class urp:
                         }
 
         self.login_url = 'http://zhjw.dlnu.edu.cn/loginAction.do'
-        self.getdata_url= 'http://zhjw.dlnu.edu.cn/gradeLnAllAction.do?type=ln&oper=fainfo&fajhh=603'
-
+        self.get_fulldata_url= 'http://zhjw.dlnu.edu.cn/gradeLnAllAction.do?type=ln&oper=fainfo&fajhh=603'
+        self.get_recentdata_url= 'http://zhjw.dlnu.edu.cn/bxqcjcxAction.do'
         self.headers = { 'User-Agent' : 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:14.0) Gecko/20100101 Firefox/14.0.1',
                     'Accept': 'application/x-www-form-urlencoded',
 
@@ -49,7 +49,7 @@ class urp:
             
 
     def get_fulldata(self):
-        self.k = self.s.get(self.getdata_url, headers = self.headers)
+        self.k = self.s.get(self.get_fulldata_url, headers = self.headers)
         self.text = self.k.text
         garde =[]    
         items = re.findall('<tr.*?<td align="center">.*?<td align="center">.*?<td align="center">(.*?)</td>.*?<p align="center">(.+?)&nbsp;</P>.*?</td>.*?</tr>', self.text, re.S)
@@ -57,8 +57,22 @@ class urp:
             return u'无最近考试信息'
         else:
             for item in items:
-                row = '%s  %s\n'% ( string.strip(item[0]), string.strip(item[1]) )
+                row = '%s  %s\n'% (string.strip(item[0]), string.strip(item[1]))
                 garde.append(row)
-            garde = ''.join(garde[:4])
+            garde = ''.join(garde)
+            return garde
+            
+    def get_recentdata(self):
+        self.k = self.s.get(self.get_recentdata_url, headers = self.headers)
+        self.text = self.k.text
+        garde =[]    
+        items = re.findall('<tr.*?<td align="center">.*?<td align="center">.*?<td align="center">(.*?)</td>.*?<p align="center">(.+?)&nbsp;</P>.*?</td>.*?</tr>', self.text, re.S)
+        if items == []:
+            return u'无最近考试信息'
+        else:
+            for item in items:
+                row = '%s  %s\n'% (string.strip(item[0]), string.strip(item[1]))
+                garde.append(row)
+            garde = ''.join(garde)
             return garde
 

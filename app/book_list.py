@@ -19,10 +19,10 @@ class book_list:
         self.login_url = 'http://portal.dlnu.edu.cn/Login'
         self.getdata_url= 'http://portal.dlnu.edu.cn/mhpd/jtsy/main_xs.jsp'
 
-        self.headers = {'Host': 'portal.dlnu.edu.cn',
-                        'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:33.0) Gecko/20100101 Firefox/33.0',
-                        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-                        'Accept-Language': 'zh-cn,zh;q=0.8,en-us;q=0.5,en;q=0.3',
+        self.headers = {#'Host': 'portal.dlnu.edu.cn',
+                        #'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:33.0) Gecko/20100101 Firefox/33.0',
+                        #'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                        #'Accept-Language': 'zh-cn,zh;q=0.8,en-us;q=0.5,en;q=0.3',
                         'Accept-Encoding': 'gzip, deflate',
                         }
 
@@ -36,13 +36,13 @@ class book_list:
            }
 
         
-        self.r = self.s.post(self.login_url, self.postdata)
+        self.s.post(self.login_url, self.postdata, headers = self.headers)
         
 
 
     def get_data(self):
-        self.k = self.s.get(self.getdata_url)
-        self.text = self.k.text
+        k = self.s.get(self.getdata_url, headers = self.headers)
+        self.text = k.text
 
     def deal_data(self):
 

@@ -12,21 +12,8 @@ class checkevent:
         self.fromuser = fromuser
         self.exist_user = User.query.filter_by(openid = self.fromuser).first()
 
-    def grade(self):
-        if self.exist_user is None:
-            text = u'请绑定后使用'
-            return text
-        else:
-            geturp = urp(self.exist_user.username, self.exist_user.password_urp)
-            if geturp.login():
-                geturp.get_data()
-                grades = geturp.deal_data()
-                return grades
-            else:
-                text = u'密码变化,请重新绑定'
-                return text
 
-    def grade(self):
+    def recentgrade(self):
         if self.exist_user is None:
             text = u'请绑定后使用'
             return text
@@ -115,7 +102,7 @@ class checkevent:
             'binding': self.binding,
             #'unlock': self.unlock,
             'drcom_logout': self.drcom_logout,
-            'grade': self.grade,
+            'grade': self.recentgrade,
             'fullgrade':self.fullgrade,
             #'course':self.course,
             'book_list': self.booklist,

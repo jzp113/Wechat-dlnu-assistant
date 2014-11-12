@@ -40,7 +40,7 @@ class urp:
                         }
 
         
-        self.r = self.s.post(self.login_url, self.postdata)
+        self.r = self.s.post(self.login_url, self.postdata, headers = self.headers)
         if len(self.r.text) == 489:
             return True
         else:
