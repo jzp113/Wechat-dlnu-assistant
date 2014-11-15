@@ -22,6 +22,11 @@ class urp:
         self.login_url = 'http://zhjw.dlnu.edu.cn/loginAction.do'
         self.get_fulldata_url= 'http://zhjw.dlnu.edu.cn/gradeLnAllAction.do?type=ln&oper=fainfo&fajhh=603'
         self.get_recentdata_url= 'http://zhjw.dlnu.edu.cn/bxqcjcxAction.do'
+        
+        self.get_evaluation_url ='http://zhjw.dlnu.edu.cn/jxpgXsAction.do?oper=listWj'
+        self.open_evaluation_url ='http://zhjw.dlnu.edu.cn/jxpgXsAction.do'
+        self.post_evaluation_data_url ='http://zhjw.dlnu.edu.cn/jxpgXsAction.do?oper=wjpg'
+        
         self.headers = { 'User-Agent' : 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:14.0) Gecko/20100101 Firefox/14.0.1',
                     'Accept': 'application/x-www-form-urlencoded',
 
@@ -40,7 +45,7 @@ class urp:
                         }
 
         
-        self.r = self.s.post(self.login_url, self.postdata)
+        self.r = self.s.post(self.login_url, self.postdata, headers = self.headers)
         if len(self.r.text) == 489:
             return True
         else:
@@ -75,4 +80,62 @@ class urp:
                 garde.append(row)
             garde = ''.join(garde)
             return garde
+            
+    def open_evaluation(self, wjbm, bpr, pgnr):
+        self.wjbm = wjbm
+        self.bpr = bpr
+        self.pgnr = pgnr
+        postdata = {
+                    'wjbm': self.wjbm,
+                    'bpr': self.bpr,
+                    'pgnr': self.pgnr,
+                    'oper': 'wjShow',
+                    'wjmc': '',
+                    'bprm': '',
+                    'pgnrm': '',
+                    'pageSize': '20',
+                    'page': '1',
+                    'currentPage': '1',
+                    'pageNo': ''
+                    }
+        self.s.post(self.open_evaluation_url, data = postdata)
+
+        
+    def postevaluation(self):
+        postdata = {
+                    
+                    'wjbm': self.wjbm,
+                    'bpr': self.bpr,
+                    'pgnr': self.pgnr,
+                    '0000000133': '6_1',
+                    '0000000135': '6_1',
+                    '0000000160': '4_1',
+                    '0000000163': '4_1',
+                    '0000000166': '5_1',
+                    '0000000190': '5_1',
+                    '0000000192': '5_1',
+                    '0000000193': '5_1',
+                    '0000000194': '8_1',
+                    '0000000195': '5_1',
+                    '0000000196': '5_1',
+                    '0000000197': '5_1',
+                    '0000000198': '10_1',
+                    '0000000199': '10_1',
+                    '0000000200': '7_1',
+                    '0000000201': '8_1',
+                    'zgpj' : u'老师不错'.encode('gbk')
+                    }
+        self.s.post(self.post_evaluation_data_url, data = postdata)
+        
+    def evaluation(self):
+
+        
+        req = self.s.get(self.get_evaluation_url)
+        text = req.text
+        soup= BeautifulSoup(text)
+        soup = soup.find_all('img', align = "center")
+        for litem in soup:
+            s =  litem['name'].split('#@')
+            self.open_evaluation(s[0], s[1], s[-1])
+            self.postevaluation()
 

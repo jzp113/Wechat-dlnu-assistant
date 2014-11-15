@@ -1,0 +1,21 @@
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<h1>一键教学评估</h1>
+<form action="" method="post" name="login">
+    {{form.hidden_tag()}}
+    <p>
+      
+        学号{{form.username}}<br />
+        密码{{form.password_urp}}</br />
+
+    <p><input type="submit" value="确认"></p>
+</form>
+

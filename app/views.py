@@ -18,7 +18,21 @@ import time
 import hashlib
 import xml.etree.ElementTree as ET
 
-
+'''
+@app.route('/test', methods = ['GET','POST'])
+def evalution():
+    form = LoginForm()
+    if form.validate_on_submit():
+        #urp = urp(form.username.data, form.password_urp.data)
+        if urp(form.username.data, form.password_urp.data).login():
+            urp(form.username.data, form.password_urp.data).evaluation()
+            flash("搞定")
+            return redirect('/')
+        flash("密码输入有误")
+    return render_template('login2.html', 
+        title = 'Sign In',
+        form = form)
+'''
 
 
 @app.route('/')
@@ -42,6 +56,7 @@ def index():
         title = 'Home',
         user = user,
         posts = posts)
+        
 
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
