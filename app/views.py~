@@ -4,7 +4,7 @@ from flask import session, redirect, url_for, escape
 from app import app
 from app import db
 from forms import LoginForm
-from models import User
+from .models import User
 
 
 from urp import urp
@@ -19,60 +19,36 @@ import hashlib
 import xml.etree.ElementTree as ET
 
 
-@app.route('/test', methods = ['GET','POST'])
-def evalution():
-    form = LoginForm()
-    if form.validate_on_submit():
-        #urp = urp(form.username.data, form.password_urp.data)
-        if urp(form.username.data, form.password_urp.data).login():
-            urp(form.username.data, form.password_urp.data).evaluation()
-            flash("搞定")
-            return redirect('/')
-        flash("密码输入有误")
-    return render_template('login2.html', 
-        title = 'Sign In',
-        form = form)
 
 
 
-@app.route('/')
-@app.route('/index')
-def index():
-    #contents = checkevent('ozvT4jlLObJWzz2JQ9EFsWSkdM9U').key_check('grade')
-    #flash(contents)
-    
-    user = { 'nickname': 'Johnson' }
-    posts = [
-        { 
-            'author': { 'nickname': 'John' }, 
-            'body': 'Beautiful day in Portland!' 
-        },
-        { 
-            'author': { 'nickname': 'Susan' }, 
-            'body': 'The Avengers movie was so cool!' 
-        }
-    ]
-    return render_template('index.html',
-        title = 'Home',
-        user = user,
-        posts = posts)
-        
+
+@app.route('/show', methods = ['GET'])
+def secceed():
+    return u'enjoy it!'
+
+
 
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
-    openid = request.args.get('openid', '')
     form = LoginForm()
+    openid = request.args.get('openid', '')
     if  form.validate_on_submit():
+    
         if urp(form.username.data, form.password_urp.data).login():
+            
+        
+            
+            
             user = User( openid , form.username.data, form.password_urp.data, form.password_drcom.data)
             db.session.add(user)
             db.session.commit()
-            flash("绑定成功")
-            return redirect('/')
-        flash("密码输入有误")
-    return render_template('login.html', 
-        title = 'Sign In',
-        form = form)
+            return redirect("/show")
+            
+            
+        flash(u"用户名或密码有误")
+    return render_template('login.html',
+                            form = form )
 
 @app.route('/weixin',methods=['GET','POST'])
 def wechat_auth():
@@ -94,16 +70,18 @@ def wechat_auth():
         tou = xml_rec.find('ToUserName').text
         fromu = xml_rec.find('FromUserName').text
         
-        
+       
         if  xml_rec.find('EventKey') is None:
             contents = u'谢谢关注'
         
         
         else:
-            
+           
+        
             key = xml_rec.find('EventKey').text
             contents = checkevent(fromu).key_check(key)
-
+       
+        
 
         return render_template('reply_text.xml',
         toUser = fromu,
@@ -111,6 +89,5 @@ def wechat_auth():
         createtime = str(int(time.time())),
         content = contents
         )
-        
-  
+
 
