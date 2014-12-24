@@ -59,7 +59,7 @@ class checkevent:
     def binding(self):
         
         if self.exist_user is None:
-            url = u'http://jzp007.sinaapp.com/login?openid=' + self.fromuser
+            url = u'http://jzp113.ngrok.com/login?openid=' + self.fromuser
             href = u'<a href="%s">点我绑定</a>' %url
             return href
             

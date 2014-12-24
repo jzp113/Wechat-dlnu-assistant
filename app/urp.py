@@ -21,7 +21,7 @@ class urp:
                         }
 
         self.login_url = 'http://zhjw.dlnu.edu.cn/loginAction.do'
-        self.get_fulldata_url= 'http://zhjw.dlnu.edu.cn/gradeLnAllAction.do?type=ln&oper=fainfo&fajhh=603'
+        self.get_fulldata_url= 'http://zhjw.dlnu.edu.cn/gradeLnAllAction.do?type=ln&oper=fainfo&fa'
         self.get_recentdata_url= 'http://zhjw.dlnu.edu.cn/bxqcjcxAction.do'
         
         self.get_evaluation_url ='http://zhjw.dlnu.edu.cn/jxpgXsAction.do?oper=listWj'
@@ -55,7 +55,12 @@ class urp:
             
 
     def get_fulldata(self):
-        req = self.s.get(self.get_fulldata_url, headers = self.headers)
+        req = self.s.get(self.get_fulldata_url)
+        text = req.text
+        soup = BeautifulSoup(text)
+        tag = soup.find('iframe')
+        url_fulldata = 'http://zhjw.dlnu.edu.cn/' + tag['src']
+        req = self.s.get(url_fulldata)
         text = req.text
         garde =[]
         items = re.findall('<tr.*?<td align="center">.*?<td align="center">.*?<td align="center">(.*?)</td>.*?<p align="center">(.+?)&nbsp;</P>.*?</td>.*?</tr>', text, re.S)
@@ -66,8 +71,9 @@ class urp:
                 row = '%s  %s\n'% (string.strip(item[0]), string.strip(item[1]))
                 garde.append(row)
             garde = ''.join(garde)
-            return garde
-            
+
+
+
     def get_recentdata(self):
         data = []
         req = self.s.get(self.get_recentdata_url, headers = self.headers)
