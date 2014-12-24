@@ -71,6 +71,7 @@ class urp:
                 row = '%s  %s\n'% (string.strip(item[0]), string.strip(item[1]))
                 garde.append(row)
             garde = ''.join(garde)
+            return garde
 
 
 
