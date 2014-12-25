@@ -15,16 +15,24 @@
     <div class='container' >
     <form class="form-horizontal" role="form" action='' method='post'>
     <legend class='form-title'>教务系统绑定</legend>
-    <div class="form-group">
     
-    <div class="col-sm-10 col-sm-offset-1">
-      <input type="text" class="form-control" name='username' placeholder="帐号" requiredrequired=required maxlength=16 autofocus="autofocus">
+    <div class="form-group">
+     <div class="col-sm-10 col-sm-offset-1">
+       {{ form.username(class = 'form-control', placeholder='学号') }}
+   </div>
+    </div>
+
+    <div class="form-group">
+     <div class="col-sm-10 col-sm-offset-1">
+      {{ form.password_urp(class = 'form-control', placeholder='信息门户密码') }}
+
     </div>
     </div>
+     
     <div class="form-group">
-    
     <div class="col-sm-10 col-sm-offset-1">
-      <input type="password" class="form-control" name='password' placeholder="密码" requiredrequired=required maxlength=16 >
+      {{ form.password_drcom(class = 'form-control', placeholder='校园网密码') }}
+
     </div>
     </div>
     
