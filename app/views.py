@@ -70,7 +70,7 @@ def login():
             flash("绑定成功")
             return redirect('/')
         flash("密码输入有误")
-    return render_template('login.html', 
+    return render_template('login1.html', 
         title = 'Sign In',
         form = form)
 
