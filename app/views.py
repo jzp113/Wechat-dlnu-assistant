@@ -1,5 +1,5 @@
 # coding=utf-8
-from flask import render_template, flash, redirect, request, Flask, g, make_response
+from flask import render_template, flash, redirect, request, Flask, g, make_response, redirect
 from flask import session, redirect, url_for, escape
 from app import app
 from app import db
@@ -56,6 +56,11 @@ def index():
         title = 'Home',
         user = user,
         posts = posts)
+
+@app.route('/test')
+def test():
+    return render_template('login2.html')
+        
         
 
 @app.route('/login', methods = ['GET', 'POST'])
@@ -64,12 +69,13 @@ def login():
     form = LoginForm()
     if  form.validate_on_submit():
         if urp(form.username.data, form.password_urp.data).login():
-            user = User( openid , form.username.data, form.password_urp.data, form.password_drcom.data)
+
+            user = User(openid, form.username.data, form.password_urp.data, form.password_drcom.data)
             db.session.add(user)
             db.session.commit()
-            flash("绑定成功")
-            return redirect('/')
-        flash("密码输入有误")
+            return redirect("/test")
+            #return render_template('login2.html')
+        flash("用户名或密码错误")
     return render_template('login1.html', 
         title = 'Sign In',
         form = form)

@@ -58,12 +58,18 @@ class drcom:
             return False
 
     def logout(self):
-        req = self.s.get(self.logout_sessionid_url)
-        text = req.text
-        soup = BeautifulSoup(text)
-        tag = soup.find('td', style = 'display:none;')
-        sessionid = tag.string
-        self.s.get(self.logout_url, params = {'t': '', 'fldsessionid': sessionid})
+        try:
+            req = self.s.get(self.logout_sessionid_url)
+            text = req.text
+            soup = BeautifulSoup(text)
+            tag = soup.find('td', style = 'display:none;')
+            sessionid = tag.string
+            self.s.get(self.logout_url, params = {'t': '', 'fldsessionid': sessionid})
+            status = u'下线成功'
+            return status
+        except AttributeError:
+            status = u'账号处于离线状态'
+            return status
         
 
     def get_flow(self):
@@ -78,17 +84,14 @@ class drcom:
         req = self.s.post(self.getdate_url, data = {'type': '1' ,'year': time.gmtime()[0]})
         text = req.text
         soup = BeautifulSoup(text)
-        soup = soup.find('tbody').find('td').find_next_sibling('td')
-        self.date = soup.string
-    
+        try:
+            soup = soup.find('tbody').find('td').find_next_sibling('td')
+            self.date = soup.string
+        except AttributeError:  # if the date was Null
+            self.date = u'不详'
+
 
     def deal_data(self):
         flow_date = u'已使流量: %s MByte\n到期时间: %s'% (self.flow, self.date)
         return flow_date
-
-
-
-
-
-
 
