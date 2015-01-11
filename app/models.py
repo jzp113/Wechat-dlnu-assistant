@@ -6,7 +6,6 @@ class User(db.Model):
     username = db.Column(db.Integer, unique=True)
     password_urp = db.Column(db.String(256))
     password_drcom = db.Column(db.String(256))
-  
 
     def __init__(self, openid, username, password_urp, password_drcom):
         self.openid   = openid
@@ -16,11 +15,5 @@ class User(db.Model):
 
     def __repr__(self):
         return '<Urp %r>' % self.username
-        
-        
 
-        
-       
-        
-        
 
