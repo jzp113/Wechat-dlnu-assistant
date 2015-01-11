@@ -29,7 +29,7 @@ def evalution():
             flash("搞定")
             return redirect('/')
         flash("密码输入有误")
-    return render_template('login2.html', 
+    return render_template('login2.html',
         title = 'Sign In',
         form = form)
 '''
@@ -40,16 +40,16 @@ def evalution():
 def index():
     #contents = checkevent('ozvT4jlLObJWzz2JQ9EFsWSkdM9U').key_check('grade')
     #flash(contents)
-    
+
     user = { 'nickname': 'Johnson' }
     posts = [
-        { 
-            'author': { 'nickname': 'John' }, 
-            'body': 'Beautiful day in Portland!' 
+        {
+            'author': { 'nickname': 'John' },
+            'body': 'Beautiful day in Portland!'
         },
-        { 
-            'author': { 'nickname': 'Susan' }, 
-            'body': 'The Avengers movie was so cool!' 
+        {
+            'author': { 'nickname': 'Susan' },
+            'body': 'The Avengers movie was so cool!'
         }
     ]
     return render_template('index.html',
@@ -60,8 +60,7 @@ def index():
 @app.route('/test')
 def test():
     return render_template('login2.html')
-        
-        
+
 
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
@@ -76,7 +75,7 @@ def login():
             return redirect("/test")
             #return render_template('login2.html')
         flash("用户名或密码错误")
-    return render_template('login1.html', 
+    return render_template('login1.html',
         title = 'Sign In',
         form = form)
 
@@ -99,14 +98,13 @@ def wechat_auth():
         xml_rec = ET.fromstring(rec)
         tou = xml_rec.find('ToUserName').text
         fromu = xml_rec.find('FromUserName').text
-        
-        
+
+
         if  xml_rec.find('EventKey') is None:
             contents = u'谢谢关注'
-        
-        
+
+
         else:
-            
             key = xml_rec.find('EventKey').text
             contents = checkevent(fromu).key_check(key)
 
@@ -117,6 +115,4 @@ def wechat_auth():
         createtime = str(int(time.time())),
         content = contents
         )
-        
-  
 
