@@ -21,7 +21,7 @@ class urp:
                         }
 
         self.login_url = 'http://zhjw.dlnu.edu.cn/loginAction.do'
-        self.get_fulldata_url= 'http://zhjw.dlnu.edu.cn/gradeLnAllAction.do?type=ln&oper=fainfo&fa'
+        self.get_fulldata_url= 'http://zhjw.dlnu.edu.cn/gradeLnAllAction.do?type=ln&oper=fa'
         self.get_recentdata_url= 'http://zhjw.dlnu.edu.cn/bxqcjcxAction.do'
         
         self.get_evaluation_url ='http://zhjw.dlnu.edu.cn/jxpgXsAction.do?oper=listWj'
@@ -72,6 +72,7 @@ class urp:
                 garde.append(row)
             garde = ''.join(garde)
             return garde
+
 
 
 

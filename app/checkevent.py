@@ -59,7 +59,7 @@ class checkevent:
     def binding(self):
         
         if self.exist_user is None:
-            url = u'http://10.146.110.111:5000/login?openid=' + self.fromuser
+            url = u'http://jzp113.ngrok.com/login?openid=' + self.fromuser
             href = u'<a href="%s">点我绑定</a>' %url
             return href
             
@@ -107,7 +107,7 @@ class checkevent:
 
  
     def eggs(self):
-        text = u'因鄙人极厌官僚之风，深恶校园各项业务之繁琐，书信不能达无奈出此下策，历时两月终出此作略有瑕疵望众海涵。于念逝去女友，又鉴于民院帮手民大助手之粗俗，故得此名愿其永存于此      ————二流程序员书'
+        text = u'因鄙人极厌官僚之风，深恶校园各项业务之繁琐，书信不能达无奈出此下策，历时两月终出此作略有瑕疵望众海涵。于念逝去爱情，又鉴于民院帮手民大助手之粗俗，故得此名愿其永存于此      ————二流程序员书'
         return text
 
     def userguide(self):
