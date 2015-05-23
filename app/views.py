@@ -1,5 +1,5 @@
 # coding=utf-8
-from flask import render_template, flash, redirect, request, Flask, g, make_response, redirect
+from flask import render_template, flash, redirect, request, Flask, g, make_response
 from flask import session, redirect, url_for, escape
 from app import app
 from app import db

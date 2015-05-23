@@ -119,11 +119,4 @@ class urp:
 
 
 
-if __name__ == '__main__':
-    userid = '2012081507'
-    passwd = '520134'
-    urp = urp(userid, passwd)
-    if urp.login():
-        urp.usercourse()
-    else:
-        print 'invaild passwd'
+
