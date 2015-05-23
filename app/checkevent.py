@@ -3,7 +3,8 @@ import requests
 from app import db
 from models import User
 from urp import urp
-from book_list import book_list
+#from book_list import book_list
+from newbook_list_httpRequestVersion import book_list
 from drcom import drcom
 
 class checkevent:
@@ -45,21 +46,33 @@ class checkevent:
             text = u'请绑定后使用'
             return text
         else:
-            geturp = urp(self.exist_user.username, self.exist_user.password_urp)
-            if geturp.login():
-                booklist = book_list(self.exist_user.username, self.exist_user.password_urp)
-                booklist.login()
-                booklist.get_data()
-                booklist = booklist.deal_data()
-                return booklist
-            else:
-                text = u'密码变化,请重新绑定'
-                return text
+            booklist = book_list(self.exist_user.username)
+            booklist.login()
+            booklist = booklist.get_booklists()
+            return booklist
+                
+    def delay_return(self):
+    
+        if self.exist_user is None:
+            text = u'请绑定后使用'
+            return text
+        else:
+            delaybook = book_list(self.exist_user.username)
+            delaybook.login()
+            delaybook = delaybook.delay_return()
+            return delaybook
+            
+    def course(self):
+        return u'还没写好～～(*^__^*)'
+                
+        
+                
+               
             
     def binding(self):
         
         if self.exist_user is None:
-            url = u'http://jzp113.ngrok.com/login?openid=' + self.fromuser
+            url = u'http://219.217.179.16/login?openid=' + self.fromuser
             href = u'<a href="%s">点我绑定</a>' %url
             return href
             
@@ -89,11 +102,11 @@ class checkevent:
         else:
             getdrcom= drcom(self.exist_user.username, self.exist_user.password_drcom)
             if getdrcom.login():
-                text = getdrcom.logout() 
+                text = getdrcom.logout()
                 return text
             else:
-                text = u'密码变化,请重新绑定'
-                return text
+                status = u'密码变化,请重新绑定'
+                return status
 
     def unlock(self):
         if self.exist_user is None:
@@ -104,14 +117,17 @@ class checkevent:
             db.session.commit()
             text = u'解除绑定成功'
             return text
-
- 
+            
+    def codeinfo(self):
+        text = u'因鄙人极厌官僚之风，深恶校园各项业务之繁琐，书信不能达无奈出此下策，历时两月终出此作略有瑕疵望众海涵。于念逝去之爱情，又鉴于民院帮手民大助手之粗俗，故得此名愿其永存于此      ————二流程序员书'
+        return text
+        
     def eggs(self):
-        text = u'因鄙人极厌官僚之风，深恶校园各项业务之繁琐，书信不能达无奈出此下策，历时两月终出此作略有瑕疵望众海涵。于念逝去爱情，又鉴于民院帮手民大助手之粗俗，故得此名愿其永存于此      ————二流程序员书'
+        text = u"猜猜我是不是帅哥，答对有奖O(∩_∩)O"
         return text
 
     def userguide(self):
-        text = u'面板上的功能除了课表和图书都可以用了。查成绩有时候可能速度有点慢不过本人会努力优化的。另外求一名会python，一个人写好累啊（回复此平台即可）。'
+        text = u'我写的还不够傻瓜吗？(*^__^*) 嘻嘻……just a joke'
         return text
 
     def key_check(self,key):
@@ -121,9 +137,11 @@ class checkevent:
             'drcom_logout': self.drcom_logout,
             'grade': self.recentgrade,
             'fullgrade':self.fullgrade,
-            #'course':self.course,
+            'course':self.course,
             'book_list': self.booklist,
+            'delaybook': self.delay_return,
             'drcom_flow': self.drcom,
+            'codeinfo':self.codeinfo,
             'eggs': self.eggs,
             'userguide': self.userguide
          }

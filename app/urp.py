@@ -87,15 +87,18 @@ class urp:
         else:
             for course in courses:
                 name = course.find('td').find_next_sibling('td').find_next_sibling('td')
-                garde = name.find_next_sibling('td').find_next_sibling('td').find_next_sibling('td').find_next_sibling('td')
+                grade = name.find_next_sibling('td').find_next_sibling('td').find_next_sibling('td').find_next_sibling('td')
                 name = string.strip(name.string)
-                garde = string.strip(garde.string)
-                if len(garde) != 0:
-                    row = '%s  %s\n'% (name, garde)
+                grade = string.strip(grade.string)
+                if len(grade) != 0:
+                    row = u'%s  %s\n'% (name, grade)
                     data.append(row)
             data = ''.join(data)
-            return data
-            
+            if  len(data) == 0:
+                return u'无最近考试成绩'
+            else:
+                return data
+
     def open_evaluation(self, wjbm, bpr, pgnr):
         self.wjbm = wjbm
         self.bpr = bpr
@@ -115,10 +118,8 @@ class urp:
                     }
         self.s.post(self.open_evaluation_url, data = postdata)
 
-        
     def postevaluation(self):
         postdata = {
-                    
                     'wjbm': self.wjbm,
                     'bpr': self.bpr,
                     'pgnr': self.pgnr,
@@ -141,10 +142,9 @@ class urp:
                     'zgpj' : u'老师不错'.encode('gbk')
                     }
         self.s.post(self.post_evaluation_data_url, data = postdata)
-        
+
     def evaluation(self):
 
-        
         req = self.s.get(self.get_evaluation_url)
         text = req.text
         soup= BeautifulSoup(text)
