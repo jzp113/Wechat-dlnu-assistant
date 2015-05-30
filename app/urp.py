@@ -68,9 +68,9 @@ class urp:
             return u'无最近考试信息'
         else:
             for item in items:
-                row = '%s  %s\n'% (string.strip(item[0]), string.strip(item[1]))
+                row = u'%s  %s'% (string.strip(item[0]), string.strip(item[1]))
                 garde.append(row)
-            garde = ''.join(garde)
+            garde = '\n'.join(garde)
             return garde
 
 
@@ -91,9 +91,9 @@ class urp:
                 name = string.strip(name.string)
                 grade = string.strip(grade.string)
                 if len(grade) != 0:
-                    row = u'%s  %s\n'% (name, grade)
+                    row = u'%s  %s'% (name, grade)
                     data.append(row)
-            data = ''.join(data)
+            data = '\n'.join(data)
             if  len(data) == 0:
                 return u'无最近考试成绩'
             else:

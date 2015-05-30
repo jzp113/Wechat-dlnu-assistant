@@ -49,9 +49,9 @@ class book_list:
             for booklist in bookcontent:
                 bookname = booklist.find('a').string
                 returndate = booklist.find('font').string
-                row = u'\n%s 到期时间: %s'%(bookname, returndate)
+                row = u'%s\n到期时间: %s'%(bookname, returndate)
                 book.append(row)
-            book = ''.join(book)
+            book = '\n'.join(book)
             return book
 
     def delay_return(self):
@@ -75,11 +75,11 @@ class book_list:
                 req = self.s.get(self.delay_url, params = payload)
                 req = req.content.decode('utf8')
                 if u'green' in req:
-                    row = u'\n%s 续借成功'%(bookname)
+                    row = u'%s 续借成功'%(bookname)
                 else:
-                    row = u'\n%s 未到续期条件'%(bookname)
+                    row = u'%s 未到续期条件'%(bookname)
                 meg.append(row)
-            meg = ''.join(meg)
+            meg = '\n'.join(meg)
             return meg
                 
                 

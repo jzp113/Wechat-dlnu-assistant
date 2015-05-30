@@ -1,11 +1,12 @@
 # coding=utf-8
 import requests
 from app import db
-from models import User
+from models import Course, User_course, User
 from urp import urp
 #from book_list import book_list
 from newbook_list_httpRequestVersion import book_list
 from drcom import drcom
+from courses_lis import urp_courses
 
 class checkevent:
     def __init__(self, fromuser):
@@ -63,11 +64,19 @@ class checkevent:
             return delaybook
             
     def course(self):
-        return u'还没写好～～(*^__^*)'
-                
-        
-                
-               
+        if self.exist_user is None:
+            text = u'请绑定后使用'
+            return text
+        else:
+            getCourse = urp_courses(self.exist_user.username, self.exist_user.password_urp)
+            if getCourse.login():
+                data = getCourse.get_courses()
+                return data
+            else:
+                text = u'密码变化,请重新绑定'
+                return text
+
+
             
     def binding(self):
         

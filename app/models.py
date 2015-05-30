@@ -35,7 +35,7 @@ class Course(db.Model):
         self.weeks = weeks
         self.day = day
         self.time = time
-    #   self.place = place
+        self.place = place
 
 class User_course(db.Model):
     #print 'models imported as ', __name__
