@@ -218,17 +218,19 @@ class urp_courses:
 
 
 
-
+'''
 if __name__ == '__main__':
     userid = '2012081507'
     passwd = '520134'
-    user = User.query.filter_by(username=userid).first()
-    print user.username,user.password_urp
+    #user = User.query.filter_by(username=userid).first()
+    #print user.username,user.password_urp
     #print type(user.username),type(user.password_urp)
 
-    urp = urp_courses(user.username, user.password_urp)
+    urp = urp_courses(userid, passwd)
     if urp.login():
-        #urp.course_info()
-        print urp.get_courses()
+        urp.course_info()
+        urp.usercourse()
+        #print urp.get_courses()
     else:
         print 'invaild passwd'
+'''
