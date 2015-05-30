@@ -10,7 +10,7 @@ from courses_lis import urp_courses
 
 class checkevent:
     def __init__(self, fromuser):
-        
+
         self.fromuser = fromuser
         self.exist_user = User.query.filter_by(openid = self.fromuser).first()
 
@@ -27,7 +27,7 @@ class checkevent:
             else:
                 text = u'密码变化,请重新绑定'
                 return text
-                
+
     def fullgrade(self):
         if self.exist_user is None:
             text = u'请绑定后使用'
@@ -40,9 +40,9 @@ class checkevent:
             else:
                 text = u'密码变化,请重新绑定'
                 return text
-                
+
     def booklist(self):
-        
+
         if self.exist_user is None:
             text = u'请绑定后使用'
             return text
@@ -51,9 +51,9 @@ class checkevent:
             booklist.login()
             booklist = booklist.get_booklists()
             return booklist
-                
+
     def delay_return(self):
-    
+
         if self.exist_user is None:
             text = u'请绑定后使用'
             return text
@@ -62,7 +62,7 @@ class checkevent:
             delaybook.login()
             delaybook = delaybook.delay_return()
             return delaybook
-            
+
     def course(self):
         if self.exist_user is None:
             text = u'请绑定后使用'
@@ -76,19 +76,31 @@ class checkevent:
                 text = u'密码变化,请重新绑定'
                 return text
 
-
-            
-    def binding(self):
-        
+    def updatecourses(self):
         if self.exist_user is None:
-            url = u'http://219.217.179.16/login?openid=' + self.fromuser
+            text = u'请绑定后使用'
+            return text
+        else:
+            getCourse = urp_courses(self.exist_user.username, self.exist_user.password_urp)
+            if getCourse.login():
+                getCourse.usercourse()
+                return  u'课程更新成功'
+            else:
+                text = u'密码变化,请重新绑定'
+                return text
+
+
+    def binding(self):
+
+        if self.exist_user is None:
+            url = u'http://jzp.tunnel.mobi.tunnel.mobi/login?openid=' + self.fromuser
             href = u'<a href="%s">点我绑定</a>' %url
             return href
-            
+
         else:
             text = u'您已绑定,如密码变化,请先解除绑定.'
             return text
-            
+
     def drcom(self):
         if self.exist_user is None:
             text = u'请绑定后使用'
@@ -126,11 +138,11 @@ class checkevent:
             db.session.commit()
             text = u'解除绑定成功'
             return text
-            
+
     def codeinfo(self):
         text = u'因鄙人极厌官僚之风，深恶校园各项业务之繁琐，书信不能达无奈出此下策，历时两月终出此作略有瑕疵望众海涵。于念逝去之爱情，又鉴于民院帮手民大助手之粗俗，故得此名愿其永存于此      ————二流程序员书'
         return text
-        
+
     def eggs(self):
         text = u"猜猜我是不是帅哥，答对有奖O(∩_∩)O"
         return text
@@ -143,6 +155,7 @@ class checkevent:
         lookup = {
             'binding': self.binding,
             'unlock': self.unlock,
+            'updatecourses':self.updatecourses,
             'drcom_logout': self.drcom_logout,
             'grade': self.recentgrade,
             'fullgrade':self.fullgrade,
@@ -157,5 +170,5 @@ class checkevent:
         lookup.get(key, lambda: None)()
         func = lookup[key]
         return func()
-         
+
 
