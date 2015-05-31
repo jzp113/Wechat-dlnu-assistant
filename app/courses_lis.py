@@ -66,9 +66,9 @@ class urp_courses:
                 sign = course.find_next('td').find_next('td').find_next('td')
                 if len(sign.string) > 1:
                     course = str(course['name'])
-                    course = re.findall(r'\d{2,10}', course)  #using regex find the digit
-                    course_number = course[0]
-                    course_order = course[1]
+                    course = re.findall(r'kch=(.*?)&kxh=(\d+)', course)  #using regex find the digit
+                    course_number = course[0][0]
+                    course_order = course[0][1]
                     user_course = User_course(int(self.username), course_number, course_order)
                     db.session.add(user_course)
         db.session.commit()
@@ -155,7 +155,8 @@ class urp_courses:
         WHERE course_info.course_number = user_course.course_number
         AND course_info.course_order = user_course.course_order
         AND username = :username
-        AND day = :day''')).params(username = self.username, day = str(day)).all()
+        AND day = :day
+        ORDER BY time ASC''')).params(username = self.username, day = str(day)).all()
         return results
 
     def get_courses(self):
@@ -216,26 +217,21 @@ class urp_courses:
             else:
                 return u'童鞋明天没课哦，放心的睡吧!'
 
-
-
-<<<<<<< HEAD
 '''
 if __name__ == '__main__':
-    userid = '2012081507'
-    passwd = '520134'
+    userid = '2013064115'
+    passwd = '6845705'
     #user = User.query.filter_by(username=userid).first()
     #print user.username,user.password_urp
     #print type(user.username),type(user.password_urp)
-
     urp = urp_courses(userid, passwd)
     if urp.login():
-        urp.course_info()
-        urp.usercourse()
+        #urp.course_info()
+        datas = urp.db_courses(1)
+        for data in datas:
+            print data.course_name,data.time
+        #urp.usercourse()
         #print urp.get_courses()
     else:
         print 'invaild passwd'
 '''
-=======
-
-
->>>>>>> a3f1a1239806c208f95c6420ad30f75474fb2cbe
