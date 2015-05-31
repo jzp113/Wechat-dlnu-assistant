@@ -218,6 +218,7 @@ class urp_courses:
 
 
 
+<<<<<<< HEAD
 '''
 if __name__ == '__main__':
     userid = '2012081507'
@@ -234,3 +235,7 @@ if __name__ == '__main__':
     else:
         print 'invaild passwd'
 '''
+=======
+
+
+>>>>>>> a3f1a1239806c208f95c6420ad30f75474fb2cbe
