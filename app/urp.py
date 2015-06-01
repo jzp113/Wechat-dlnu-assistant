@@ -6,6 +6,7 @@ import string
 import re  
 import datetime 
 from bs4 import BeautifulSoup
+import random
 
 
 class urp:
@@ -99,7 +100,9 @@ class urp:
             else:
                 return data
 
-    def open_evaluation(self, wjbm, bpr, pgnr):
+    def post_evaluation(self, wjbm, bpr, pgnr):
+        data = {}
+        evaluation_data = {}
         self.wjbm = wjbm
         self.bpr = bpr
         self.pgnr = pgnr
@@ -116,32 +119,23 @@ class urp:
                     'currentPage': '1',
                     'pageNo': ''
                     }
-        self.s.post(self.open_evaluation_url, data = postdata)
-
-    def postevaluation(self):
-        postdata = {
-                    'wjbm': self.wjbm,
-                    'bpr': self.bpr,
-                    'pgnr': self.pgnr,
-                    '0000000133': '6_1',
-                    '0000000135': '6_1',
-                    '0000000160': '4_1',
-                    '0000000163': '4_1',
-                    '0000000166': '5_1',
-                    '0000000190': '5_1',
-                    '0000000192': '5_1',
-                    '0000000193': '5_1',
-                    '0000000194': '8_1',
-                    '0000000195': '5_1',
-                    '0000000196': '5_1',
-                    '0000000197': '5_1',
-                    '0000000198': '10_1',
-                    '0000000199': '10_1',
-                    '0000000200': '7_1',
-                    '0000000201': '8_1',
-                    'zgpj' : u'老师不错'.encode('gbk')
-                    }
-        self.s.post(self.post_evaluation_data_url, data = postdata)
+        r = self.s.post(self.open_evaluation_url, data = postdata)
+        soup = BeautifulSoup(r.text)
+        orders = soup.find_all(type='radio')
+        for order in orders:
+            key = order['name']
+            value = order['value']
+            if key in data:
+                data[key].append(value)
+            else:
+                data[key] = [value]     #make dict like that  {'key':[value0,value1]}
+        for key, value in data.items():
+            evaluation_data[key] = random.choice(value)
+        evaluation_data['wjbm'] = self.wjbm
+        evaluation_data['bpr'] = self.bpr
+        evaluation_data['pgnr'] = self.pgnr
+        evaluation_data['zgpj'] = u'认真仔细'.encode('gbk')
+        self.s.post(self.post_evaluation_data_url, data = evaluation_data)
 
     def evaluation(self):
 
@@ -151,6 +145,15 @@ class urp:
         soup = soup.find_all('img', align = "center")
         for litem in soup:
             s =  litem['name'].split('#@')
-            self.open_evaluation(s[0], s[1], s[-1])
-            self.postevaluation()
+            self.post_evaluation(s[0], s[1], s[-1])
+            #self.open_evaluation(s[0], s[1], s[-1])
+            #self.postevaluation()
 
+if __name__ =='__main__':
+    userid = '2012081507'
+    passwd = '520134'
+    urp = urp(userid, passwd)
+    if urp.login():
+        urp.evaluation()
+    else:
+        print 'invalid passwd'

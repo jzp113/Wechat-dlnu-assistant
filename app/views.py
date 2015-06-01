@@ -38,6 +38,7 @@ def evalution():
 @app.route('/')
 @app.route('/index')
 def index():
+    '''
     #contents = checkevent('ozvT4jlLObJWzz2JQ9EFsWSkdM9U').key_check('grade')
     #flash(contents)
 
@@ -56,10 +57,11 @@ def index():
         title = 'Home',
         user = user,
         posts = posts)
-
+    '''
+    return render_template('index.html')
 @app.route('/test')
 def test():
-    return render_template('login2.html')
+    return render_template('index2.html')
 
 
 @app.route('/login', methods = ['GET', 'POST'])
@@ -98,14 +100,17 @@ def wechat_auth():
         xml_rec = ET.fromstring(rec)
         tou = xml_rec.find('ToUserName').text
         fromu = xml_rec.find('FromUserName').text
+        event = xml_rec.find('Event')
+        event_key = xml_rec.find('EventKey')
+        content = xml_rec.find('Content')
 
-
-        if  xml_rec.find('EventKey') is None:
-            contents = u'谢谢关注'
-
-
+        if content is not None:
+            contents = u'机器人自动回复(*^__^*) 嘻嘻……'
+        elif event.text == 'subscribe':
+            key = 'subscribe'
+            contents = checkevent(fromu).key_check(key)
         else:
-            key = xml_rec.find('EventKey').text
+            key = event_key.text
             contents = checkevent(fromu).key_check(key)
 
 

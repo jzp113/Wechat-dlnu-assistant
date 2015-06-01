@@ -1,11 +1,72 @@
-<!-- extend base layout -->
-{% extends "base.html" %}
 
-{% block content %}
-<h1>Hi, {{user.nickname}}!</h1>
-{% for post in posts %}
-<p>
-  {{post.author.nickname}} says: <b>{{post.body}}</b>
-</p>
-{% endfor %}
-{% endblock %}
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>BirdBrother</title>
+<link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+</head>
+
+<body>
+<div class="vi">
+<div class="sidebar">
+<div class="header">
+<h1>BirdBrother</h1>
+<div class="quote">
+<p class="quote-text animate-init">人生惟一的不幸就是自己的无能。人的一切痛苦，本质上都是对自己的无能的愤怒。</p>
+<p class="quote-author animate-init"> —— <strong>王小波</strong></p>
+</div>
+</div>
+<div class="menu">
+<a href="https://github.com/jzp113" class="animate-init">GitHub</a>
+</div>
+<div class="location">
+<i class="location-icon"></i>
+<span class="location-text animate-init">Dalian - China</span>
+</div>
+</div>
+
+<div class="content">
+<span class="close">close</span>
+</div>
+</div>
+<script type="text/javascript" src="/static/js/jquery/index.js"></script>
+<script>
+$(document).ready(function () {
+var delay = 1;
+var DELAY_STEP = 200;
+var animationOptions = { opacity: 1, top: 0};
+
+$('h1').animate(animationOptions).promise()
+.pipe(animateMain)
+.pipe(animateLocationIcon);
+
+function animateMain() {
+var dfd = $.Deferred();
+var els = $('.animate-init');
+var size = els.size();
+
+els.each(function (index, el) {
+delay++;
+$(el).delay(index * DELAY_STEP)
+.animate(animationOptions);
+(size - 1 === index) && dfd.resolve();
+});
+return dfd.promise();
+}
+
+function animateLocationIcon() {
+$('.location-icon').delay(delay * DELAY_STEP).animate({
+opacity: 1,
+top: 0
+}).promise().done(animationQuote);
+}
+
+function animationQuote() {}
+});
+</script>
+</body>
+</html>
+

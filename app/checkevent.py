@@ -93,7 +93,7 @@ class checkevent:
     def binding(self):
 
         if self.exist_user is None:
-            url = u'http://jzp.tunnel.mobi.tunnel.mobi/login?openid=' + self.fromuser
+            url = u'http://219.217.179.16/login?openid=' + self.fromuser
             href = u'<a href="%s">点我绑定</a>' %url
             return href
 
@@ -151,6 +151,17 @@ class checkevent:
         text = u'我写的还不够傻瓜吗？(*^__^*) 嘻嘻……just a joke'
         return text
 
+    def subscribe(self):
+        text = u'''同学欢迎使用民院小偲(*^__^*)\n
+                    使用教程：\n
+                    （一）点击账户，绑定用户\n
+                    （二）点击账户，课程更新\n
+                    Tips：\n
+                        超过晚上8点，点击课表助手推送为第二天课表\n
+                        课表信息错误时，请点击课程更新\n
+                    当遇到什么问题后者bug回复即可，小编一定会第一时间帮你解决'''
+        return text
+
     def key_check(self,key):
         lookup = {
             'binding': self.binding,
@@ -165,7 +176,8 @@ class checkevent:
             'drcom_flow': self.drcom,
             'codeinfo':self.codeinfo,
             'eggs': self.eggs,
-            'userguide': self.userguide
+            'userguide': self.userguide,
+            'subscribe':self.subscribe
          }
         lookup.get(key, lambda: None)()
         func = lookup[key]

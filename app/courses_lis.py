@@ -217,7 +217,6 @@ class urp_courses:
             else:
                 return u'童鞋明天没课哦，放心的睡吧!'
 
-'''
 if __name__ == '__main__':
     userid = '2013064115'
     passwd = '6845705'
@@ -234,4 +233,3 @@ if __name__ == '__main__':
         #print urp.get_courses()
     else:
         print 'invaild passwd'
-'''
