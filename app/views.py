@@ -38,30 +38,11 @@ def evalution():
 @app.route('/')
 @app.route('/index')
 def index():
-    '''
-    #contents = checkevent('ozvT4jlLObJWzz2JQ9EFsWSkdM9U').key_check('grade')
-    #flash(contents)
-
-    user = { 'nickname': 'Johnson' }
-    posts = [
-        {
-            'author': { 'nickname': 'John' },
-            'body': 'Beautiful day in Portland!'
-        },
-        {
-            'author': { 'nickname': 'Susan' },
-            'body': 'The Avengers movie was so cool!'
-        }
-    ]
-    return render_template('index.html',
-        title = 'Home',
-        user = user,
-        posts = posts)
-    '''
     return render_template('index.html')
+
 @app.route('/test')
 def test():
-    return render_template('index2.html')
+    return render_template('login2.html')
 
 
 @app.route('/login', methods = ['GET', 'POST'])
@@ -105,7 +86,7 @@ def wechat_auth():
         content = xml_rec.find('Content')
 
         if content is not None:
-            contents = u'机器人自动回复(*^__^*) 嘻嘻……'
+            contents = chatApi(content.text)
         elif event.text == 'subscribe':
             key = 'subscribe'
             contents = checkevent(fromu).key_check(key)
