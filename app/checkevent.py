@@ -28,6 +28,19 @@ class checkevent:
                 text = u'密码变化,请重新绑定'
                 return text
 
+    def testinfo(self):
+        if self.exist_user is None:
+            text = u'请绑定后使用'
+            return text
+        else:
+            geturp = urp(self.exist_user.username, self.exist_user.password_urp)
+            if geturp.login():
+                text = geturp.testInfo()
+                return text
+            else:
+                text = u'密码变化,请重新绑定'
+                return text
+
     def fullgrade(self):
         if self.exist_user is None:
             text = u'请绑定后使用'
@@ -170,6 +183,7 @@ class checkevent:
             'drcom_logout': self.drcom_logout,
             'grade': self.recentgrade,
             'fullgrade':self.fullgrade,
+            'testinfo':self.testinfo,
             'course':self.course,
             'book_list': self.booklist,
             'delaybook': self.delay_return,

@@ -74,15 +74,13 @@ class book_list:
                 payload = {'bar_code':barcode, 'check':checkcode}
                 req = self.s.get(self.delay_url, params = payload)
                 req = req.content.decode('utf8')
-                if u'green' in req:
-                    row = u'%s 续借成功'%(bookname)
-                else:
+                if u'red' in req:
                     row = u'%s 未到续期条件'%(bookname)
+                else:
+                    row = u'%s 续借成功'%(bookname)
                 meg.append(row)
             meg = '\n'.join(meg)
             return meg
-                
-                
 
 
 
