@@ -221,25 +221,23 @@ class urp:
 
         else:
             return u'暂无考试信息'
-
-#if __name__ =='__main__':
-#    userid = '2014022416'
-#    passwd = '123456'
-#    #userid = '2012081507'
-#    #passwd = '520134'
-#    urp = urp(userid, passwd)
-#    if urp.login():
-#        print urp.testInfo()
-#        '''
-#        start = time.time()
-#        lists = urp.evaluation()
-#        pool = Pool(12)
-#        pool.map(urp.post_evaluation, lists)
-#        pool.close()
-#        pool.join()
-#        end = time.time()
-#        print 'using time %s' %(end - start)
-#        '''
-#    else:
-#        print 'invalid passwd'
-#
+'''
+if __name__ =='__main__':
+    #userid = '2014022416'
+    #passwd = '123456'
+    userid = '2013015102'
+    passwd = 'Teresa0123'
+    urp = urp(userid, passwd)
+    if urp.login():
+        #print urp.testInfo()
+        start = time.time()
+        lists = urp.evaluation()
+        pool = Pool(12)
+        pool.map(urp.post_evaluation, lists)
+        pool.close()
+        pool.join()
+        end = time.time()
+        print 'using time %s' %(end - start)
+    else:
+        print 'invalid passwd'
+'''
