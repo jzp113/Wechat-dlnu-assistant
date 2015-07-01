@@ -70,7 +70,7 @@ class drcom:
         except AttributeError:
             status = u'账号处于离线状态'
             return status
-        
+
 
     def get_flow(self):
         req = self.s.get(self.getflow_url)
@@ -92,6 +92,8 @@ class drcom:
 
 
     def deal_data(self):
+        self.get_flow()
+        self.get_date()
         flow_date = u'已使流量: %s MByte\n到期时间: %s'% (self.flow, self.date)
         return flow_date
 

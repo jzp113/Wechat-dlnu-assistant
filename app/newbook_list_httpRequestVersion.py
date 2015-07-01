@@ -51,7 +51,7 @@ class book_list:
                 returndate = booklist.find('font').string
                 row = u'%s\n到期时间: %s'%(bookname, returndate)
                 book.append(row)
-            book = '\n'.join(book)
+            book = '\n\n'.join(book)
             return book
 
     def delay_return(self):

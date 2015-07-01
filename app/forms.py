@@ -8,3 +8,6 @@ class LoginForm(Form):
     password_urp = PasswordField('password_urp', validators = [Required()])
     password_drcom = PasswordField('password_drcom', validators = [Required()])
 
+class EvaluationForm(Form):
+    username = TextField('username', validators = [Required()])
+    password_urp = PasswordField('password_urp', validators = [Required()])

@@ -82,12 +82,9 @@ class checkevent:
             return text
         else:
             getCourse = urp_courses(self.exist_user.username, self.exist_user.password_urp)
-            if getCourse.login():
-                data = getCourse.get_courses()
-                return data
-            else:
-                text = u'密码变化,请重新绑定'
-                return text
+            data = getCourse.get_courses()
+            return data
+
 
     def updatecourses(self):
         if self.exist_user is None:
@@ -121,8 +118,6 @@ class checkevent:
         else:
             getdrcom= drcom(self.exist_user.username, self.exist_user.password_drcom)
             if getdrcom.login():
-                getdrcom.get_flow()
-                getdrcom.get_date()
                 flow_date = getdrcom.deal_data()
                 return flow_date
             else:
@@ -157,7 +152,7 @@ class checkevent:
         return text
 
     def eggs(self):
-        text = u"猜猜我是不是帅哥，答对有奖O(∩_∩)O"
+        text = u"猜猜我是不是帅哥，答对有奖/:,@P/:,@P"
         return text
 
     def userguide(self):
@@ -165,14 +160,7 @@ class checkevent:
         return text
 
     def subscribe(self):
-        text = u'''同学欢迎使用民院小偲(*^__^*)\n
-                    使用教程：\n
-                    （一）点击账户，绑定用户\n
-                    （二）点击账户，课程更新\n
-                    Tips：\n
-                        超过晚上8点，点击课表助手推送为第二天课表\n
-                        课表信息错误时，请点击课程更新\n
-                    当遇到什么问题后者bug回复即可，小编一定会第一时间帮你解决'''
+        text = u'同学欢迎使用民院小偲\n使用教程：\n（一）点击账户，绑定用户\n（二）点击账户，课程更新(因教务系统课表为空，好像是准备下学期课程，课表暂时无法使用)\nTips:\n超过晚上8点，点击课表助手推送为第二天课表。课表信息错误时，请点击课程更新。\n当遇到什么问题或者发现bug回复即可，小编一定会第一时间帮你解决。'
         return text
 
     def key_check(self,key):

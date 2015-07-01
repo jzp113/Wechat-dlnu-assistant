@@ -3,12 +3,14 @@ from flask import render_template, flash, request, Flask, g, make_response
 from flask import session, redirect, url_for, escape
 from app import app
 from app import db
-from forms import LoginForm
+from forms import LoginForm, EvaluationForm
 from models import User
 
 
 from urp import urp
 from checkevent import checkevent
+
+from multiprocessing.dummy import Pool
 
 import urllib
 import urllib2
@@ -18,21 +20,22 @@ import time
 import hashlib
 import xml.etree.ElementTree as ET
 
-'''
-@app.route('/test', methods = ['GET','POST'])
+@app.route('/fuck', methods = ['GET','POST'])
 def evalution():
-    form = LoginForm()
+    form = EvaluationForm()
     if form.validate_on_submit():
-        #urp = urp(form.username.data, form.password_urp.data)
-        if urp(form.username.data, form.password_urp.data).login():
-            urp(form.username.data, form.password_urp.data).evaluation()
-            flash("搞定")
+        fuck_dlnu = urp(form.username.data, form.password_urp.data)
+        if fuck_dlnu.login():
+            lists = fuck_dlnu.evaluation()
+            pool = Pool(12)
+            pool.map(fuck_dlnu.post_evaluation, lists)
+            pool.close()
+            pool.join()
             return redirect('/')
         flash("密码输入有误")
-    return render_template('login2.html',
-        title = 'Sign In',
+    return render_template('evaluation.html',
+        title = 'Fuckin School',
         form = form)
-'''
 
 
 @app.route('/')
