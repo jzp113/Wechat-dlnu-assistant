@@ -45,22 +45,24 @@ def index():
 
 @app.route('/test')
 def test():
-    return render_template('login2.html')
+    return render_template('succeed.html')
 
 
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
     openid = request.args.get('openid', '')
     form = LoginForm()
-    if  form.validate_on_submit():
-        if urp(form.username.data, form.password_urp.data).login():
-
+    if form.validate_on_submit():
+        if User.query.filter_by(username = form.username.data).first() is not None \
+        or User.query.filter_by(openid = openid).first() is not None:
+            flash('用户只能绑定一次')
+        elif urp(form.username.data, form.password_urp.data).login():
             user = User(openid, form.username.data, form.password_urp.data, form.password_drcom.data)
             db.session.add(user)
             db.session.commit()
-            return redirect("/test")
-            #return render_template('login2.html')
-        flash("用户名或密码错误")
+            return render_template('succeed.html')
+        else:
+            flash("用户名或密码错误")
     return render_template('login1.html',
         title = 'Sign In',
         form = form)
