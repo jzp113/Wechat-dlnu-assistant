@@ -4,11 +4,11 @@
   <link href='http://apps.bdimg.com/libs/bootstrap/3.0.3/css/bootstrap.min.css' rel='stylesheet' >
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    
+
     body { background-repeat:repeat}
     .container{width:350px;background:#fff;border-radius:5px;margin-top:15%;padding:15px 10px;}
     .form-title{text-align:center;color:#666;}
-   
+
   </style>
 
 
@@ -16,15 +16,15 @@
 
 </head>
   <body>
-  
-  
-   
-   
+
+
+
+
     <div class='container' >
     <form class="form-horizontal" role="form" action='' method='post'>
      {{form.hidden_tag()}}
     <legend class='form-title'>教务系统绑定</legend>
-    
+
     <div class="form-group">
      <div class="col-sm-10 col-sm-offset-1">
        {{ form.username(class = 'form-control', placeholder='学号') }}
@@ -37,14 +37,14 @@
 
     </div>
     </div>
-     
+
     <div class="form-group">
     <div class="col-sm-10 col-sm-offset-1">
       {{ form.password_drcom(class = 'form-control', placeholder='校园网密码') }}
 
     </div>
     </div>
-    
+
     <div class="form-group">
       <div class="col-sm-10 col-sm-offset-1" style='text-align:right'>
       <button type="submit" class="btn btn-primary">提交</button>
@@ -52,15 +52,15 @@
     </div>
     {% with messages = get_flashed_messages() %}
   {% if messages %}
-    <ul class=flashes>
+    <ul class="alert alert-danger">
     {% for message in messages %}
-      <li>{{ message }}</li>
+      <p>{{ message }}</p>
     {% endfor %}
     </ul>
   {% endif %}
 {% endwith %}
     </form>
     </div>
-    
+
   </body>
 </html>
