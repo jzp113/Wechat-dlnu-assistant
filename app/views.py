@@ -1,14 +1,25 @@
 # coding=utf-8
-from flask import render_template, flash, request, Flask, g, make_response
-from flask import session, redirect, url_for, escape
+from flask import render_template
+from flask import flash
+from flask import request
+from flask import Flask
+from flask import g
+from flask import make_response
+from flask import session
+from flask import redirect
+from flask import url_for
+from flask import escape
+
 from app import app
 from app import db
+
 from forms import LoginForm, EvaluationForm
 from models import User
 
 
 from urp import urp
 from checkevent import checkevent
+from courses_lis import urp_courses
 
 from multiprocessing.dummy import Pool
 
@@ -45,6 +56,12 @@ def index():
 
 @app.route('/test')
 def test():
+    urp = urp_courses('2012081507','520134')
+    if urp.login():
+        urp.course_info()
+        flash('succeed!')
+    else:
+        flash('fail!')
     return render_template('succeed.html')
 
 

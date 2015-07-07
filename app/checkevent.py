@@ -179,7 +179,8 @@ class checkevent:
             'codeinfo':self.codeinfo,
             'eggs': self.eggs,
             'userguide': self.userguide,
-            'subscribe':self.subscribe
+            'subscribe':self.subscribe,
+            
          }
         lookup.get(key, lambda: None)()
         func = lookup[key]

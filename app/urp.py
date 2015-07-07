@@ -51,7 +51,7 @@ class urp:
 
 
         r = self.s.post(self.login_url, postdata, headers = self.headers)
-        if len(r.text) == 489:
+        if len(r.text) < 888:
             return True
         else:
             return False

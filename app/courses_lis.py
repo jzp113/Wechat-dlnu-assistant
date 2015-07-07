@@ -48,7 +48,7 @@ class urp_courses:
 
 
         r = self.s.post(self.login_url, postdata, headers = self.headers)
-        if len(r.text) == 489:
+        if len(r.text) < 888:
             return True
         else:
             return False
@@ -112,24 +112,29 @@ class urp_courses:
                 course_order = course_order.string.strip()
                 day = day.string.strip()
                 time = time.string.strip()
+                week = re.findall(r'\d{1,2}', weeks, re.X)
                 if u'-' in weeks:
-                    week = re.findall(r'\d{1,2}', weeks, re.X)
-                    weeks =[]
-                    for date in range(int(week[0]), int(week[1]) + 1):
-                        weeks.append(str(date))
+                    firstWeek = int(week[0])
+                    lastWeek = int(week[1])
+                    gap = 2
+                    if u'单' in weeks:
+                        pass
+                    elif u'双' in weeks:
+                        firstWeek += 1
+                    else:
+                        gap = 1
+                    weeks = [str(week) for week in range(firstWeek,lastWeek+1,gap)]
                 else:
-                    weeks = re.findall(r'\d{1,2}', weeks, re.X)
+                    weeks = week
                 weeks = json.dumps(weeks)
 
                 if u'开发区' in school.string:        #checking which school
                     place = classroom.string.strip()
                 else:
-                    place = []
                     if building.string == classroom.string:  #skip the same name
-                        place.append(classroom.string.strip())
+                        place = [classroom.string.strip()]
                     else:
-                        place.append(building.string.strip())
-                        place.append(classroom.string.strip())
+                        place = [building.string.strip(),classroom.string.strip()]
                     place = ''.join(place)
                 course = Course(course_number, course_name, course_order, weeks, day, time, place)
                 db.session.add(course)
@@ -226,10 +231,10 @@ if __name__ == '__main__':
     urp = urp_courses(userid, passwd)
     if urp.login():
         #urp.course_info()
-        datas = urp.db_courses(1)
-        for data in datas:
-            print data.course_name,data.time
-        #urp.usercourse()
+        #datas = urp.db_courses(1)
+        #for data in datas:
+            #print data.course_name,data.time
+        urp.usercourse()
         #print urp.get_courses()
     else:
         print 'invaild passwd'
