@@ -14,6 +14,15 @@
 			<div class="page-header">
 				<h1>
 					<strong>人生不是眼前的苟且，</br>还有诗和远方。</strong>
+					{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class="alert alert-danger">
+    {% for message in messages %}
+      <p>{{ message }}</p>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
 				</h1>
 			</div>
 			 <button class="btn btn-success btn-block"  type="button" onclick="wx.closeWindow();">关闭</button>

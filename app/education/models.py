@@ -1,23 +1,6 @@
 from app import db
 
-class User(db.Model):
-    #print "models imported as", __name__
-    __table_args__ = {'extend_existing': True}
-    __tablename__ = "user"
-    openid = db.Column(db.String(80), primary_key = True)
-    username = db.Column(db.Integer, unique=True)
-    password_urp = db.Column(db.String(256))
-    password_drcom = db.Column(db.String(256))
-
-    def __init__(self, openid, username, password_urp, password_drcom):
-        self.openid   = openid
-        self.username = username
-        self.password_urp = password_urp
-        self.password_drcom = password_drcom
-
 class Course(db.Model):
-    #print "models imported as", __name__
-    __table_args__ = {'extend_existing': True}
     __tablename__ = 'course_info'
     id = db.Column(db.Integer, primary_key=True)
     course_number = db.Column(db.String(80))
@@ -38,8 +21,6 @@ class Course(db.Model):
         self.place = place
 
 class User_course(db.Model):
-    #print 'models imported as ', __name__
-    __table_args__ = {'extend_existing': True}
     __tablename__ = 'user_course'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.Integer)

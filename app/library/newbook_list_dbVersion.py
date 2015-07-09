@@ -1,10 +1,8 @@
-
-#encoding:utf-8
+# -*- coding: utf-8 -*-
 import sys, os
 os.environ['NLS_LANG'] = 'SIMPLIFIED CHINESE_CHINA.UTF8'
 from sqlalchemy import create_engine
-sys.path.append("..")
-from config import SQLALCHEMY_BINDS
+#from config import SQLALCHEMY_BINDS
 
 class newbook_list:
     

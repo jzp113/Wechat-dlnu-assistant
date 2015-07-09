@@ -1,4 +1,4 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
 import requests
 import HTMLParser
 import urlparse
@@ -8,10 +8,10 @@ from datetime import datetime, timedelta
 import json
 from bs4 import BeautifulSoup
 
-import sys
-sys.path.append("..")
+
 from app import db
-from models import Course, User_course, User
+from models import Course, User_course 
+#from app.user.models import User
 
 from sqlalchemy import text
 

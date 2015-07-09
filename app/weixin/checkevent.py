@@ -1,12 +1,12 @@
-# coding=utf-8
-import requests
-from app import db
-from models import Course, User_course, User
-from urp import urp
-#from book_list import book_list
-from newbook_list_httpRequestVersion import book_list
-from drcom import drcom
-from courses_lis import urp_courses
+# -*- coding: utf-8 -*-
+
+from app.user.models import User
+from app.education.models import Course, User_course
+
+from app.library.newbook_list_httpRequestVersion import book_list
+from app.internet.drcom import drcom
+from app.education.courses_lis import urp_courses
+from app.education.urp import urp
 
 class checkevent:
     def __init__(self, fromuser):
@@ -180,7 +180,6 @@ class checkevent:
             'eggs': self.eggs,
             'userguide': self.userguide,
             'subscribe':self.subscribe,
-            
          }
         lookup.get(key, lambda: None)()
         func = lookup[key]
