@@ -103,16 +103,13 @@ class urp:
             else:
                 return data
 
-    #def post_evaluation(self, wjbm, bpr, pgnr):
+
     def post_evaluation(self, lists):
         data = {}
         evaluation_data = {}
         wjbm = lists[0]
         bpr = lists[1]
         pgnr = lists[2]
-        #self.wjbm = wjbm
-        #self.bpr = bpr
-        #self.pgnr = pgnr
         postdata = {
                     'wjbm':wjbm,
                     'bpr': bpr,
@@ -137,7 +134,6 @@ class urp:
             else:
                 data[key] = [value]     #make dict like that  {'key':[value0,value1]}
         for key, value in data.items():
-            #evaluation_data[key] = random.choice(value)
             evaluation_data[key] = value[random.randint(0,1)]
         evaluation_data['wjbm'] = wjbm
         evaluation_data['bpr'] = bpr
@@ -167,18 +163,14 @@ class urp:
         soup= BeautifulSoup(text)
         soup = soup.find_all('img', align = "center")
         for litem in soup:
-            data = []
             s =  litem['name'].split('#@')
-            data.append(s[0])
-            data.append(s[1])
-            data.append(s[-1])
+            data = [s[0], s[1], s[-1])
             lists.append(data)
         return lists
 
     def testInfo(self):
         test_list = []
         format_test_list = []
-        #test_list = [u'|科目|教室|日期|时间|座位号|']
         req = self.s.get(self.getTestInfo_url)
         soup = BeautifulSoup(req.text)
         testlist = soup.find_all('tr', class_ ='odd')
@@ -201,11 +193,6 @@ class urp:
                         testPlace = testRoom.string
                     else:
                         testPlace = testBulding.string + testRoom.string
-                    '''
-                    data = u'科目: %s\n教室: %s\n日期: %s\n时间: %s\n座位: %s'%(testName.string.strip(), testPlace,\
-                                            format_testDate, testTime.string,\
-                                            testSeat.string )
-                    '''
                     data = [testName.string.strip(), testPlace, format_testDate,
                             testTime.string, testSeat.string]
                     test_list.append(data)
@@ -221,23 +208,4 @@ class urp:
 
         else:
             return u'暂无考试信息'
-'''
-if __name__ =='__main__':
-    #userid = '2014022416'
-    #passwd = '123456'
-    userid = '2013015102'
-    passwd = 'Teresa0123'
-    urp = urp(userid, passwd)
-    if urp.login():
-        #print urp.testInfo()
-        start = time.time()
-        lists = urp.evaluation()
-        pool = Pool(12)
-        pool.map(urp.post_evaluation, lists)
-        pool.close()
-        pool.join()
-        end = time.time()
-        print 'using time %s' %(end - start)
-    else:
-        print 'invalid passwd'
-'''
+

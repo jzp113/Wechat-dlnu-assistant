@@ -55,13 +55,13 @@ class urp_courses:
 
     def usercourse(self):
         datas = User_course.query.filter_by(username=self.username).all()    #update the  user's course info
-        if datas != []:
+        if datas:
             for data in datas:
                 db.session.delete(data)
         r = self.s.get(self.usercourse_url)
         soup = BeautifulSoup(r.text)
         courses = soup.find_all('img')
-        if courses != []:
+        if courses:
             for course in courses:
                 sign = course.find_next('td').find_next('td').find_next('td')
                 if len(sign.string) > 1:
@@ -222,19 +222,4 @@ class urp_courses:
             else:
                 return u'童鞋明天没课哦，放心的睡吧!'
 
-if __name__ == '__main__':
-    userid = '2013064115'
-    passwd = '6845705'
-    #user = User.query.filter_by(username=userid).first()
-    #print user.username,user.password_urp
-    #print type(user.username),type(user.password_urp)
-    urp = urp_courses(userid, passwd)
-    if urp.login():
-        #urp.course_info()
-        #datas = urp.db_courses(1)
-        #for data in datas:
-            #print data.course_name,data.time
-        urp.usercourse()
-        #print urp.get_courses()
-    else:
-        print 'invaild passwd'
+
