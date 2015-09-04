@@ -1,0 +1,6 @@
+flask
+flask-sqlalchemy
+beautifulsoup4
+requests
+flask-wtf
+

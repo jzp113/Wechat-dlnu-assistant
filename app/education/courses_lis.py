@@ -112,21 +112,26 @@ class urp_courses:
                 course_order = course_order.string.strip()
                 day = day.string.strip()
                 time = time.string.strip()
-                week = re.findall(r'\d{1,2}', weeks, re.X)
-                if u'-' in weeks:
-                    firstWeek = int(week[0])
-                    lastWeek = int(week[1])
-                    gap = 2
-                    if u'单' in weeks:
-                        pass
-                    elif u'双' in weeks:
-                        firstWeek += 1
+                all_weeks = []
+                week_date = weeks.split(',')
+                for date in week_date:
+                    week = re.findall(r'\d{1,2}', date, re.X)
+                    if u'-' in date:
+                        firstWeek = int(week[0])
+                        lastWeek = int(week[1])
+                        gap = 2
+                        if u'单' in weeks:
+                            pass
+                        elif u'双' in weeks:
+                            firstWeek += 1
+                        else:
+                            gap = 1
+                        weeks = [str(week) for week in range(firstWeek,lastWeek+1,gap)]
                     else:
-                        gap = 1
-                    weeks = [str(week) for week in range(firstWeek,lastWeek+1,gap)]
-                else:
-                    weeks = week
-                weeks = json.dumps(weeks)
+                        weeks = week
+                    all_weeks.extend(weeks)
+                weeks = json.dumps(all_weeks)
+             
 
                 if u'开发区' in school.string:        #checking which school
                     place = classroom.string.strip()

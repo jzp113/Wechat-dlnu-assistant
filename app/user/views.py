@@ -13,6 +13,7 @@ from forms import LoginForm, EvaluationForm
 from models import User
 
 from app.education.urp import urp
+from app.education.courses_lis import urp_courses
 
 from multiprocessing.dummy import Pool
 
