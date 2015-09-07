@@ -164,7 +164,7 @@ class urp:
         soup = soup.find_all('img', align = "center")
         for litem in soup:
             s =  litem['name'].split('#@')
-            data = [s[0], s[1], s[-1])
+            data = [s[0], s[1], s[-1]]
             lists.append(data)
         return lists
 

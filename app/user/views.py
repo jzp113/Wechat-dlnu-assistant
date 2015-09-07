@@ -14,6 +14,7 @@ from models import User
 
 from app.education.urp import urp
 from app.education.courses_lis import urp_courses
+from app.education.updata_user_courses import updata
 
 from multiprocessing.dummy import Pool
 
@@ -51,6 +52,18 @@ def test():
     else:
         flash('fail!')
     return render_template('succeed.html')
+
+@user.route('/updata_user')
+def updata_user():
+    allUser = User.query.all()
+    pool = Pool(12)
+    pool.map(updata, [[user.username,user.password_urp]
+                         for user in allUser]
+                     )
+    pool.close()
+    pool.join()
+    return 'succeed'
+
 
 
 @user.route('/login', methods = ['GET', 'POST'])
