@@ -36,7 +36,7 @@ class drcom:
 
     def login(self):
 
-        req = self.s.get(self.login_url)
+        req = self.s.get(self.login_url, timeout = 2)
         text = req.text
         checkcode = re.findall('var checkcode="(\d*)', text, re.S)
         self.s.get(self.random_url)

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from app import db
 
 from app.user.models import User
 from app.education.models import Course, User_course
@@ -160,7 +161,7 @@ class checkevent:
         return text
 
     def subscribe(self):
-        text = u'同学欢迎使用民院小偲\n使用教程：\n（一）点击账户，绑定用户\n（二）点击账户，课程更新(因教务系统课表为空，好像是准备下学期课程，课表暂时无法使用)\nTips:\n超过晚上8点，点击课表助手推送为第二天课表。课表信息错误时，请点击课程更新。\n当遇到什么问题或者发现bug回复即可，小编一定会第一时间帮你解决。'
+        text = u'同学欢迎使用民院小偲\n使用教程：\n（一）点击账户，绑定用户\n（二）点击账户，课程更新!课程更新!课程更新!重要的事说三遍！\nTips:\n各项功能在面板对应的按钮中，不要问我！我只会扯淡。\n\n超过晚上8点，点击课表助手推送为第二天课表。课表信息错误时，请点击课程更新。\n当遇到什么问题或者发现bug回复即可，小编一定会第一时间帮你解决。'
         return text
 
     def key_check(self,key):

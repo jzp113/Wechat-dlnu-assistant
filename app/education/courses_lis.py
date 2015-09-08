@@ -47,7 +47,7 @@ class urp_courses:
                         }
 
 
-        r = self.s.post(self.login_url, postdata, headers = self.headers)
+        r = self.s.post(self.login_url, postdata, headers = self.headers, timeout = 2)
         if len(r.text) < 888:
             return True
         else:

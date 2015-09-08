@@ -50,7 +50,7 @@ class urp:
                         }
 
 
-        r = self.s.post(self.login_url, postdata, headers = self.headers)
+        r = self.s.post(self.login_url, postdata, headers = self.headers, timeout = 2)
         if len(r.text) < 888:
             return True
         else:
@@ -175,7 +175,7 @@ class urp:
         soup = BeautifulSoup(req.text)
         testlist = soup.find_all('tr', class_ ='odd')
         if testlist == []:
-            return u'暂无考试信息'
+            return u'暂无考试信息/:,@-D'
         else:
             for testdata in testlist:
                 testSchool = testdata.find('td').find_next_sibling('td')
@@ -207,5 +207,5 @@ class urp:
             return format_testStr
 
         else:
-            return u'暂无考试信息'
+            return u'暂无考试信息/:,@-D'
 
