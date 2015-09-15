@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup
 
 
 from app import db
-from models import Course, User_course 
+from models import Course, User_course
 #from app.user.models import User
 
 from sqlalchemy import text
@@ -93,7 +93,7 @@ class urp_courses:
                 'actionType':'1'
                                }
         req = self.s.post(self.courses_info_url, postdata)
-        soup= BeautifulSoup(req.text)
+        soup= BeautifulSoup(req.text, 'lxml')
         courses = soup.find_all('tr', class_ = 'odd')
         for course in courses:
             course_number = course.find('td')
@@ -131,7 +131,6 @@ class urp_courses:
                         weeks = week
                     all_weeks.extend(weeks)
                 weeks = json.dumps(all_weeks)
-             
 
                 if u'开发区' in school.string:        #checking which school
                     place = classroom.string.strip()

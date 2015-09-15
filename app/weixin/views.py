@@ -42,7 +42,7 @@ def wechat_auth():
         content = xml_rec.find('Content')
 
         if content is not None:
-            contents = chatApi(content.text)
+            contents = chatApi(content.text, fromu)
         elif event.text == 'subscribe':
             key = 'subscribe'
             contents = checkevent(fromu).key_check(key)
