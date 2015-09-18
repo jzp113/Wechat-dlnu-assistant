@@ -29,6 +29,19 @@ class checkevent:
                 text = u'密码变化,请重新绑定'
                 return text
 
+    def resitgrade(self):
+        if self.exist_user is None:
+            text = u'请绑定后使用'
+            return text
+        else:
+            geturp = urp(self.exist_user.username, self.exist_user.password_urp)
+            if geturp.login():
+                grades = geturp.resitData()
+                return grades
+            else:
+                text = u'密码变化,请重新绑定'
+                return text
+
     def testinfo(self):
         if self.exist_user is None:
             text = u'请绑定后使用'
@@ -157,7 +170,8 @@ class checkevent:
         return text
 
     def userguide(self):
-        text = u'我写的还不够傻瓜吗？(*^__^*) 嘻嘻……just a joke'
+        url = u'http://219.217.179.16/feedback'
+        text = u'我写的还不够傻瓜吗？(*^__^*) 嘻嘻……just a joke\n<a href="%s">点我吐槽</a>'%url
         return text
 
     def subscribe(self):
@@ -181,6 +195,8 @@ class checkevent:
             'eggs': self.eggs,
             'userguide': self.userguide,
             'subscribe':self.subscribe,
+            'resitgrade':self.resitgrade
+
          }
         lookup.get(key, lambda: None)()
         func = lookup[key]

@@ -25,6 +25,7 @@ class urp:
         self.login_url = 'http://zhjw.dlnu.edu.cn/loginAction.do'
         self.get_fulldata_url= 'http://zhjw.dlnu.edu.cn/gradeLnAllAction.do?type=ln&oper=fa'
         self.get_recentdata_url= 'http://zhjw.dlnu.edu.cn/bxqcjcxAction.do'
+        self.get_resitdata_url = 'http://zhjw.dlnu.edu.cn/cjSearchAction.do?oper=getKscjList'
 
         self.get_evaluation_url ='http://zhjw.dlnu.edu.cn/jxpgXsAction.do?oper=listWj'
         self.open_evaluation_url ='http://zhjw.dlnu.edu.cn/jxpgXsAction.do'
@@ -103,6 +104,22 @@ class urp:
             else:
                 return data
 
+    def resitData(self):
+        Date = []
+        r = self.s.get(self.get_resitdata_url)
+        soup = BeautifulSoup(r.text)
+        resitInfo = soup.find_all('tr', class_ = "odd")
+        if resitInfo:
+            for data in resitInfo:
+                course = data.find('td').find_next_sibling('td').find_next_sibling('td')
+                grade = course.find_next_sibling('td').find_next_sibling('td').find_next_sibling('td')
+                course, grade = string.strip(course.string), string.strip(grade.string)
+                row = u'%s  %s'%(course, grade)
+                Date.append(row)
+            data = '\n'.join(Date)
+            return data
+        else:
+            return u'暂无补考成绩'
 
     def post_evaluation(self, lists):
         data = {}
