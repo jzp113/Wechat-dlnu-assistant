@@ -34,7 +34,7 @@ def updata(lists):
         if datas:
             for data in datas:
                 db.session.delete(data)
-        req = s.get(usercourse_url)
+        req = s.get(usercourse_url, headers = headers)
         soup = BeautifulSoup(req.text)
         courses = soup.find_all('img')
         if courses:
@@ -48,3 +48,4 @@ def updata(lists):
                     user_course = User_course(int(lists[0]), course_number, course_order)
                     db.session.add(user_course)
         db.session.commit()
+        db.session.close()

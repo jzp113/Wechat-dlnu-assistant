@@ -92,7 +92,7 @@ class urp_courses:
                 'pageNumber':'0',
                 'actionType':'1'
                                }
-        req = self.s.post(self.courses_info_url, postdata)
+        req = self.s.post(self.courses_info_url, postdata, headers = self.headers)
         soup= BeautifulSoup(req.text, 'lxml')
         courses = soup.find_all('tr', class_ = 'odd')
         for course in courses:
@@ -174,7 +174,7 @@ class urp_courses:
         week = soup.find('font', size='6')
         self.week = week.string
 
-        if self.week > u'20':
+        if int(self.week) > 20:
             return u'童鞋，放假了啦'
 
         else:

@@ -18,6 +18,15 @@ from app.education.updata_user_courses import updata
 
 from multiprocessing.dummy import Pool
 
+from gevent.monkey import patch_all
+patch_all()
+from psycogreen.gevent import patch_psycopg
+patch_psycopg()
+
+from gevent.pool import Pool as gPool
+
+from time import time
+
 user = Blueprint('user', __name__, template_folder = 'templates')
 
 @user.route('/fuck', methods = ['GET','POST'])
@@ -48,21 +57,20 @@ def test():
     urp = urp_courses('2012081507','520134')
     if urp.login():
         urp.course_info()
-        flash('succeed!')
     else:
-        flash('fail!')
-    return render_template('succeed.html')
+        flash('passwd error!')
+    return 'succeed'
 
 @user.route('/updata_user')
 def updata_user():
+    t1 = time()
     allUser = User.query.all()
-    pool = Pool(12)
+    pool = gPool(12)
     pool.map(updata, [[user.username,user.password_urp]
                          for user in allUser]
                      )
-    pool.close()
-    pool.join()
-    return 'succeed'
+    t2 = time()
+    return 'succeed \n run:%f'%(t2-t1)
 
 
 
@@ -70,7 +78,7 @@ def updata_user():
 def login():
     openid = request.args.get('openid', '')
     form = LoginForm()
-    if form.validate_on_submit():
+    if form.validate_on_submit() and openid:
         if User.query.filter_by(username = form.username.data).first() \
         or User.query.filter_by(openid = openid).first():
             flash('用户只能绑定一次')

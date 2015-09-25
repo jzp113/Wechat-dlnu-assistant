@@ -9,6 +9,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 app.config.from_object('config')
 db = SQLAlchemy(app)
+db.engine.pool._use_threadlocal = True
 
 def register_blueprints():
 
