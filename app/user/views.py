@@ -15,13 +15,15 @@ from models import User
 from app.education.urp import urp
 from app.education.courses_lis import urp_courses
 from app.education.updata_user_courses import updata
+from app.education.update_allCourse_single import updata_allCourses
+
+from app.education.models import  User_course, Course
 
 from multiprocessing.dummy import Pool
 
 from gevent.monkey import patch_all
 patch_all()
-from psycogreen.gevent import patch_psycopg
-patch_psycopg()
+
 
 from gevent.pool import Pool as gPool
 
@@ -61,11 +63,29 @@ def test():
         flash('passwd error!')
     return 'succeed'
 
-@user.route('/updata_user')
-def updata_user():
+@user.route('/test1')
+def test1():
+    courses = Course.query.all()    #update the  user's course info
+    for data in courses:
+        db.session.delete(data)
     t1 = time()
     allUser = User.query.all()
-    pool = gPool(12)
+    pool = gPool(120)
+    pool.map(updata_allCourses, [[user.username,user.password_urp]
+                         for user in allUser]
+                     )
+    t2 = time()
+    return 'succeed \n run:%f'%(t2-t1)
+
+
+@user.route('/updata_user')
+def updata_user():
+    userCourses = User_course.query.all()    #update the  user's course info
+    for data in userCourses:
+        db.session.delete(data)
+    t1 = time()
+    allUser = User.query.all()
+    pool = gPool(120)
     pool.map(updata, [[user.username,user.password_urp]
                          for user in allUser]
                      )

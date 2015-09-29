@@ -30,10 +30,7 @@ def updata(lists):
 
     r = s.post(login_url, postdata, headers = headers)
     if len(r.text) < 888:
-        datas = User_course.query.filter_by(username=lists[0]).all()    #update the  user's course info
-        if datas:
-            for data in datas:
-                db.session.delete(data)
+
         req = s.get(usercourse_url, headers = headers)
         soup = BeautifulSoup(req.text)
         courses = soup.find_all('img')

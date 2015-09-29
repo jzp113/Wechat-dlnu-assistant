@@ -82,7 +82,6 @@ class urp_courses:
                 'showColumn':[u'kch#课程号'.encode('gbk'),
                               u'kcm#课程名'.encode('gbk'),
                               u'kxh#课序号'.encode('gbk'),
-                              u'skjs#教师'.encode('gbk'),
                               u'zcsm#周次'.encode('gbk'),
                               u'skxq#星期'.encode('gbk'),
                               u'skjc#节次'.encode('gbk'),
@@ -99,14 +98,14 @@ class urp_courses:
             course_number = course.find('td')
             course_name = course_number.find_next_sibling('td')
             course_order = course_name.find_next_sibling('td')
-            weeks = course_order.find_next_sibling('td').find_next_sibling('td')
+            weeks = course_order.find_next_sibling('td')
             day = weeks.find_next_sibling('td')
             time = day.find_next_sibling('td')
             school = time.find_next_sibling('td')
             building = school.find_next_sibling('td')
             classroom = building.find_next_sibling('td')
             weeks = weeks.string.strip()
-            if len(weeks) > 1:    #skip the  courses which doesen't need go to class
+            if len(weeks) > 0:    #skip the  courses which doesen't need go to class
                 course_number = course_number.string.strip()
                 course_name = course_name.string.strip()
                 course_order = course_order.string.strip()
@@ -143,7 +142,6 @@ class urp_courses:
                 course = Course(course_number, course_name, course_order, weeks, day, time, place)
                 db.session.add(course)
         db.session.commit()
-
 
     def CheckMaxTime(self, key):   #set the maxtime of the course time
         maxtime = {
