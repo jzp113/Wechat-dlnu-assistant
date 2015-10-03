@@ -40,6 +40,11 @@ def evalution():
 @user.route('/index')
 def index():
     return render_template('index.html')
+    
+
+@user.route('/feedback')
+def feedback():
+    return render_template('comments.html')
 
 @user.route('/login', methods = ['GET', 'POST'])
 def login():
