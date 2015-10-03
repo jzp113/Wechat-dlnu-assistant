@@ -10,24 +10,11 @@ from flask import url_for
 from app import db
 
 from forms import LoginForm, EvaluationForm
-from models import User
+from models import regUser
 
 from app.education.urp import urp
-from app.education.courses_lis import urp_courses
-from app.education.updata_user_courses import updata
-from app.education.update_allCourse_single import updata_allCourses
-
-from app.education.models import  User_course, Course
 
 from multiprocessing.dummy import Pool
-
-from gevent.monkey import patch_all
-patch_all()
-
-
-from gevent.pool import Pool as gPool
-
-from time import time
 
 user = Blueprint('user', __name__, template_folder = 'templates')
 
@@ -54,56 +41,16 @@ def evalution():
 def index():
     return render_template('index.html')
 
-@user.route('/test')
-def test():
-    urp = urp_courses('2012081507','520134')
-    if urp.login():
-        urp.course_info()
-    else:
-        flash('passwd error!')
-    return 'succeed'
-
-@user.route('/test1')
-def test1():
-    courses = Course.query.all()    #update the  user's course info
-    for data in courses:
-        db.session.delete(data)
-    t1 = time()
-    allUser = User.query.all()
-    pool = gPool(120)
-    pool.map(updata_allCourses, [[user.username,user.password_urp]
-                         for user in allUser]
-                     )
-    t2 = time()
-    return 'succeed \n run:%f'%(t2-t1)
-
-
-@user.route('/updata_user')
-def updata_user():
-    userCourses = User_course.query.all()    #update the  user's course info
-    for data in userCourses:
-        db.session.delete(data)
-    t1 = time()
-    allUser = User.query.all()
-    pool = gPool(120)
-    pool.map(updata, [[user.username,user.password_urp]
-                         for user in allUser]
-                     )
-    t2 = time()
-    return 'succeed \n run:%f'%(t2-t1)
-
-
-
 @user.route('/login', methods = ['GET', 'POST'])
 def login():
     openid = request.args.get('openid', '')
     form = LoginForm()
     if form.validate_on_submit() and openid:
-        if User.query.filter_by(username = form.username.data).first() \
-        or User.query.filter_by(openid = openid).first():
+        if regUser.query.filter_by(username = form.username.data).first() \
+        or regUser.query.filter_by(openid = openid).first():
             flash('用户只能绑定一次')
         elif urp(form.username.data, form.password_urp.data).login():
-            user = User(openid, form.username.data, form.password_urp.data, form.password_drcom.data)
+            user = regUser(openid, form.username.data, form.password_urp.data, form.password_drcom.data)
             db.session.add(user)
             db.session.commit()
             return render_template('succeed.html')

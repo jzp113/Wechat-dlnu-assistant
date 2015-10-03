@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from app import db
 
-from app.user.models import User
+from app.user.models import regUser
 from app.education.models import Course, User_course
 
 from app.library.newbook_list_httpRequestVersion import book_list
@@ -13,7 +13,7 @@ class checkevent:
     def __init__(self, fromuser):
 
         self.fromuser = fromuser
-        self.exist_user = User.query.filter_by(openid = self.fromuser).first()
+        self.exist_user = regUser.query.filter_by(openid = self.fromuser).first()
 
 
     def recentgrade(self):
@@ -26,7 +26,7 @@ class checkevent:
                 grades = geturp.get_recentdata()
                 return grades
             else:
-                text = u'密码变化,请重新绑定'
+                text = u'教务系统密码错误,请重新绑定'
                 return text
 
     def resitgrade(self):
@@ -39,7 +39,7 @@ class checkevent:
                 grades = geturp.resitData()
                 return grades
             else:
-                text = u'密码变化,请重新绑定'
+                text = u'教务系统密码错误,请重新绑定'
                 return text
 
     def testinfo(self):
@@ -52,7 +52,7 @@ class checkevent:
                 text = geturp.testInfo()
                 return text
             else:
-                text = u'密码变化,请重新绑定'
+                text = u'教务系统密码错误,请重新绑定'
                 return text
 
     def fullgrade(self):
@@ -65,7 +65,7 @@ class checkevent:
                 grades = geturp.get_fulldata()
                 return grades
             else:
-                text = u'密码变化,请重新绑定'
+                text = u'教务系统密码错误,请重新绑定'
                 return text
 
     def booklist(self):
@@ -110,7 +110,7 @@ class checkevent:
                 getCourse.usercourse()
                 return  u'课程更新成功'
             else:
-                text = u'密码变化,请重新绑定'
+                text = u'教务系统密码错误,请重新绑定'
                 return text
 
 
@@ -135,7 +135,7 @@ class checkevent:
                 flow_date = getdrcom.deal_data()
                 return flow_date
             else:
-                text = u'密码变化,请重新绑定'
+                text = u'校园网密码错误,请重新绑定'
                 return text
 
     def drcom_logout(self):
@@ -148,7 +148,7 @@ class checkevent:
                 text = getdrcom.logout()
                 return text
             else:
-                status = u'密码变化,请重新绑定'
+                status = u'校园网密码错误,请重新绑定'
                 return status
 
     def unlock(self):

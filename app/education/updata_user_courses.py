@@ -42,7 +42,7 @@ def updata(lists):
                     course = re.findall(r'kch=(.*?)&kxh=(\d+)', course)  #using regex find the digit
                     course_number = course[0][0]
                     course_order = course[0][1]
-                    user_course = User_course(int(lists[0]), course_number, course_order)
+                    user_course = User_course(lists[0], course_number, course_order)
                     db.session.add(user_course)
         db.session.commit()
         db.session.close()

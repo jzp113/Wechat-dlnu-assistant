@@ -4,4 +4,5 @@ beautifulsoup4
 requests
 flask-wtf
 gevent
-
+flask-bcrypt
+flask-admin

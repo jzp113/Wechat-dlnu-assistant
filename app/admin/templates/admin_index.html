@@ -1,0 +1,120 @@
+{% extends 'admin/base.html' %}
+
+
+{% block head %}
+<h2 align="center" id="brand"> 微信后台管理中心</h2>
+{% endblock %}
+
+{% block access_control %}
+<div class="btn-group pull-right">
+    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+        <i class="icon-user"></i><span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+        <li><a href="{{ url_for('admin.logout_view') }}">注销</a></li>
+    </ul>
+</div>
+{% endblock %}
+
+
+{% block body %}
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="span4">
+			<div class="header">
+				<h3 class="text-muted">
+				</h3>
+			</div>
+			<div class="jumbotron well">
+				<h1 align = "center">
+					课程库更新
+				</h1>
+				<p class="lead">
+                    开学点击此按钮，当课程数量为2k～3k时为正常值，
+                    更新时注意课程库课程是否齐全！<br>
+				</p>
+				<p>
+				<button class="btn btn-large btn-success" data-loading-text="Loading..." onclick ="update_courses()">更新</button>
+				</p>
+			</div>
+			<div class="row marketing">
+			</div>
+		</div>
+		<div class="span4">
+			<div class="header">
+				<h3 class="text-muted">
+				</h3>
+			</div>
+			<div class="jumbotron well">
+				<h1 align = "center">
+					用户课程更新
+				</h1>
+				<p class="lead">
+                    更新所有用户课程，即清空用户所有课表用爬虫重新
+                    抓取（临近期末时全校课程库为空！此时勿点！！）
+				</p>
+				<p>
+				<button class="btn btn-large btn-success" data-loading-text="Loading..." onclick="update_user()">更新</button>
+				</p>
+			</div>
+			<div class="row marketing">
+			</div>
+		</div>
+		<div class="span4">
+			<div class="header">
+				<h3 class="text-muted">
+				</h3>
+			</div>
+			<div class="jumbotron well">
+				<h1 align = "center">
+					课程库更新（备）
+				</h1>
+				<p class="lead">
+                    单独获取学生课表(正常情况不建议使用），此方法会产生许多重复课程信息，
+                    需要进入数据库批量删除。方法参照操作文档。
+				</p>
+				<p>
+				<button class="btn btn-large btn-danger" data-loading-text="Loading..." onclick="update_courses_backup()">更新（备用）</button>
+				</p>
+			</div>
+			<div class="row marketing">
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+function update_courses(){
+
+$.get("{{url_for('manage.update_courses')}}",function(date){
+		alert(date);
+	});
+}
+
+function update_user(){
+$.get("{{url_for('manage.update_user')}}",function(date){
+		alert(date);
+	});
+}
+
+function update_courses_backup(){
+$.get("{{url_for('manage.update_courses_backup')}}",function(date){
+		alert(date);
+	});
+}
+
+
+</script>
+
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+
+<script>
+   $(function() {
+      $("button.btn").click(function(){
+         $(this).button('loading').delay(1000).queue(function() {
+           // $(this).button('reset');
+         });
+      });
+   });
+	</script>
+{% endblock %}
